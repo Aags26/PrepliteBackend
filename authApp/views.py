@@ -49,3 +49,27 @@ def login(request):
     response['error'] = error
     response['message'] = message
     return JsonResponse(response)
+
+@csrf_exempt
+def profile(request):
+    response = {}
+    error = False
+    message = 'success'
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+        try:
+            user = UserModel.objects.get(email=json_data['email'])
+            response['name'] = user.name
+            response['email'] = user.email
+            response['yearOfStudy'] = user.yearOfStudy
+            response['alumni'] = user.alumni
+        except UserModel.DoesNotExist:
+            error = True
+            message = 'failure'
+            response['error'] = error
+            response['message'] = message
+            return JsonResponse(response)
+        
+    response['error'] = error
+    response['message'] = message
+    return JsonResponse(response)
