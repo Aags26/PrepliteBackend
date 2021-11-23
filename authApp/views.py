@@ -13,18 +13,21 @@ def register(request):
     message = "success"
     if request.method == "POST":
         json_data = json.loads(request.body)
-        userEmail = json_data['email']
+
         userName = json_data['name']
+        userEmail = json_data['email']
         userPassword = hashlib.md5(bytes(json_data['password'].encode())).hexdigest()
-        userYearOfStudy = json_data['yearOfStudy']
+        userBatch = json_data['batch']
         userAlumni = json_data['alumni']
+        userPhone = json_data['phone']
+        userProfileImage = json_data['profile_image']
 
         if userAlumni=='y':
             userAlumni = True
         else:
             userAlumni = False
 
-        userEntry = UserModel.objects.create(name=userName,email=userEmail,password=userPassword,yearOfStudy=userYearOfStudy,alumni=userAlumni)
+        userEntry = UserModel.objects.create(name=userName,email=userEmail,password=userPassword,batch=userBatch,alumni=userAlumni,phone=userPhone,profile_image=userProfileImage)
     response['error'] = error
     response['message'] = message
 
@@ -39,6 +42,7 @@ def login(request):
         json_data = json.loads(request.body)
         try:
             user = UserModel.objects.get(Q(email=json_data['email']),Q(password=hashlib.md5(bytes(json_data['password'].encode())).hexdigest()))
+            response['user_id'] = user.user_id
         except UserModel.DoesNotExist:
             error = True
             message = 'failure'
@@ -58,11 +62,14 @@ def profile(request):
     if request.method == "POST":
         json_data = json.loads(request.body)
         try:
-            user = UserModel.objects.get(email=json_data['email'])
+            user = UserModel.objects.get(user_id=json_data['user_id'])
+            response['user_id'] = user.user_id
             response['name'] = user.name
             response['email'] = user.email
-            response['yearOfStudy'] = user.yearOfStudy
+            response['batch'] = user.batch
             response['alumni'] = user.alumni
+            response['phone'] = user.phone
+            response['profile_image'] = user.profile_image
         except UserModel.DoesNotExist:
             error = True
             message = 'failure'
