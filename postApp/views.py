@@ -96,7 +96,7 @@ def registerCompanyUser(request):
         user_id = json_data['user_id']
         internship = json_data['internship']
 
-        universityEntry = CompanyUserModel.objects.create(company_id=company_id,user_id=user_id,internship=internship)
+        companyUserEntry = CompanyUserModel.objects.create(company_id=company_id,user_id=user_id,internship=internship)
     response['error'] = error
     response['message'] = message
 
@@ -156,6 +156,45 @@ def downvote(request):
         postObject.downvotes = postObject.downvotes + 1
         postObject.save()
 
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
+
+@csrf_exempt
+def viewComments(request):
+    error = False
+    message = "success"
+    json_data = json.loads(request.body)
+    post_id = json_data['post_id']
+    response = {}
+    result = {}
+    commentList = []
+    querySet = CommentModel.objects.filter(post_id=post_id)
+    for comment in querySet:
+        tempList = {}
+        tempList['comment_id'] = comment.comment_id
+        tempList['content'] = comment.content
+        commentList.append(tempList)
+
+    result['comment'] = commentList
+    response['result'] = result
+    response['error'] = error
+    response['message'] = message
+    return JsonResponse(response, safe=False)
+
+@csrf_exempt
+def addComment(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+
+        post_id = json_data['post_id']
+        content = json_data['content']
+
+        commentEntry = CommentModel.objects.create(post_id=post_id,content=content)
     response['error'] = error
     response['message'] = message
 

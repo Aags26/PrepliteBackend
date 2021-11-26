@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from authApp.views import register, login, profile
-from postApp.views import registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies,upvote,downvote,createPost
+from postApp.views import registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies,upvote,downvote,createPost,viewComments,addComment
 
 router = routers.DefaultRouter()
 
@@ -35,4 +35,6 @@ urlpatterns = [
     path('createPost/',createPost),
     path('upvote/',upvote),
     path('downvote/',downvote),
+    path('addComment/',addComment),
+    path('viewComments/',viewComments),
 ]
