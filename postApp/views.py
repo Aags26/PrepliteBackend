@@ -103,6 +103,31 @@ def registerCompanyUser(request):
     return JsonResponse(response)
 
 @csrf_exempt
+def viewPosts(request):
+    error = False
+    message = "success"
+    response = {}
+    result = {}
+    postList = []
+    querySet = PostModel.objects.all().order_by('-timestamp')
+    for post in querySet:
+        tempList = {}
+        tempList['post_id'] = post.post_id
+        tempList['user_id'] = post.user_id
+        tempList['timestamp'] = post.timestamp
+        tempList['upvotes'] = post.upvotes
+        tempList['downvotes'] = post.downvotes
+        tempList['content'] = post.content
+        tempList['company_id'] = post.company_id
+        postList.append(tempList)
+
+    result['post'] = postList
+    response['result'] = result
+    response['error'] = error
+    response['message'] = message
+    return JsonResponse(response, safe=False)
+
+@csrf_exempt
 def createPost(request):
     response = {}
     error = False
@@ -170,7 +195,7 @@ def viewComments(request):
     response = {}
     result = {}
     commentList = []
-    querySet = CommentModel.objects.filter(post_id=post_id)
+    querySet = CommentModel.objects.filter(post_id=post_id).order_by('-timestamp')
     for comment in querySet:
         tempList = {}
         tempList['comment_id'] = comment.comment_id
