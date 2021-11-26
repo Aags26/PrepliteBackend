@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from authApp.views import register, login, profile
-from postApp.views import registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies
+from postApp.views import registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies,upvote,downvote,createPost
 
 router = routers.DefaultRouter()
 
@@ -31,5 +31,8 @@ urlpatterns = [
     path('viewUniversities/',viewUniversities),
     path('viewCompanies/',viewCompanies),
     path('registerCompany/',registerCompany),
-    path('registerCompanyUser/',registerCompanyUser)
+    path('registerCompanyUser/',registerCompanyUser),
+    path('createPost/',createPost),
+    path('upvote/',upvote),
+    path('downvote/',downvote),
 ]

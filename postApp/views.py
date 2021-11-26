@@ -1,10 +1,11 @@
 from django.core.checks.messages import Error
 from django.shortcuts import render
-from .models import UniversityModel,CompanyUserModel,CompanyModel,PostModel,PostMaterialModel
+from .models import UniversityModel,CompanyUserModel,CompanyModel,PostModel,PostMaterialModel,CommentModel
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 import json
+import time
 
 @csrf_exempt
 def registerUniversity(request):
@@ -78,6 +79,7 @@ def viewCompanies(request):
         companyList.append(tempList)
 
     result['company'] = companyList
+    response['result'] = result
     response['error'] = error
     response['message'] = message
     return JsonResponse(response, safe=False)
@@ -95,6 +97,65 @@ def registerCompanyUser(request):
         internship = json_data['internship']
 
         universityEntry = CompanyUserModel.objects.create(company_id=company_id,user_id=user_id,internship=internship)
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
+
+@csrf_exempt
+def createPost(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+
+        timestamp = time.time()
+        user_id = json_data['user_id']
+        upvotes = 0
+        downvotes = 0
+        content = json_data['content']
+        company_id = json_data['company_id']
+
+        postEntry = PostModel.objects.create(company_id=company_id,user_id=user_id,upvotes=upvotes,downvotes=downvotes,content=content,timestamp=timestamp)
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
+
+@csrf_exempt
+def upvote(request):
+    response = {}
+    result = {}
+    error = False
+    message = "success"
+    if request.method=="POST":
+        json_data = json.loads(request.body)
+
+        post_id = json_data['post_id']
+        postObject = PostModel.objects.get(post_id=post_id)
+        postObject.upvotes = postObject.upvotes + 1
+        postObject.save()
+
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
+
+@csrf_exempt
+def downvote(request):
+    response = {}
+    result = {}
+    error = False
+    message = "success"
+    if request.method=="POST":
+        json_data = json.loads(request.body)
+
+        post_id = json_data['post_id']
+        postObject = PostModel.objects.get(post_id=post_id)
+        postObject.downvotes = postObject.downvotes + 1
+        postObject.save()
+
     response['error'] = error
     response['message'] = message
 
