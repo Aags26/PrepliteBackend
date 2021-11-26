@@ -34,3 +34,53 @@ def viewUniversities(request):
         response.append(tempList)
 
     return JsonResponse(response, safe=False)
+
+
+# endpoint for adding company
+@csrf_exempt
+def registerCompany(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+
+        companyName = json_data['name']
+        companyLogo = json_data['logo']
+
+        universityEntry = CompanyModel.objects.create(name=companyName,logo=companyLogo)
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
+
+@csrf_exempt
+def viewCompanies(request):
+    querySet = CompanyModel.objects.all()
+    response = []
+    for company in querySet:
+        tempList = {}
+        tempList['company_id'] = company.company_id
+        tempList['name'] = company.name
+        tempList['logo'] = company.logo
+        response.append(tempList)
+
+    return JsonResponse(response, safe=False)
+
+@csrf_exempt
+def registerCompanyUser(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+
+        company_id = json_data['company_id']
+        user_id = json_data['user_id']
+        internship = json_data['internship']
+
+        universityEntry = UniversityModel.objects.create(company_id=company_id,user_id=user_id,internship=internship)
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
