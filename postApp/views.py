@@ -48,7 +48,7 @@ def registerCompany(request):
         companyName = json_data['name']
         companyLogo = json_data['logo']
 
-        universityEntry = CompanyModel.objects.create(name=companyName,logo=companyLogo)
+        companyEntry = CompanyModel.objects.create(name=companyName,logo=companyLogo)
     response['error'] = error
     response['message'] = message
 
@@ -79,7 +79,7 @@ def registerCompanyUser(request):
         user_id = json_data['user_id']
         internship = json_data['internship']
 
-        universityEntry = UniversityModel.objects.create(company_id=company_id,user_id=user_id,internship=internship)
+        universityEntry = CompanyUserModel.objects.create(company_id=company_id,user_id=user_id,internship=internship)
     response['error'] = error
     response['message'] = message
 
