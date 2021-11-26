@@ -37,10 +37,20 @@ class PostModel(models.Model):
     downvotes = models.IntegerField()
     content = models.TextField()
     company_id = models.ForeignKey(CompanyModel,on_delete=models.CASCADE)
+    # add
 
 
     def __str__(self):
         return self.post_id
+
+class CommentModel(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    post_id = models.ForeignKey(PostModel,on_delete=models.CASCADE)
+    timestamp = models.IntegerField()
+    content = models.TextField()
+
+    def __str__(self):
+        return self.comment_id
 
 class PostMaterialModel(models.Model):
     post_id = models.IntegerField(primary_key=True)
