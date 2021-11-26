@@ -36,20 +36,24 @@ def register(request):
 @csrf_exempt
 def login(request):
     response = {}
+    result = {}
     error = False
     message = 'success'
     if request.method == "POST":
         json_data = json.loads(request.body)
         try:
+            userResult = {}
             user = UserModel.objects.get(Q(email=json_data['email']),Q(password=hashlib.md5(bytes(json_data['password'].encode())).hexdigest()))
-            response['user_id'] = user.user_id
+            userResult['user_id'] = user.user_id
+            result['user'] = userResult
+            response['result'] = result
         except UserModel.DoesNotExist:
             error = True
             message = 'failure'
             response['error'] = error
             response['message'] = message
             return JsonResponse(response)
-        
+      
     response['error'] = error
     response['message'] = message
     return JsonResponse(response)
@@ -57,19 +61,23 @@ def login(request):
 @csrf_exempt
 def profile(request):
     response = {}
+    result = {}
     error = False
     message = 'success'
     if request.method == "POST":
         json_data = json.loads(request.body)
         try:
+            userResult = {}
             user = UserModel.objects.get(user_id=json_data['user_id'])
-            response['user_id'] = user.user_id
-            response['name'] = user.name
-            response['email'] = user.email
-            response['batch'] = user.batch
-            response['alumni'] = user.alumni
-            response['phone'] = user.phone
-            response['profile_image'] = user.profile_image
+            userResult['user_id'] = user.user_id
+            userResult['name'] = user.name
+            userResult['email'] = user.email
+            userResult['batch'] = user.batch
+            userResult['alumni'] = user.alumni
+            userResult['phone'] = user.phone
+            userResult['profile_image'] = user.profile_image
+            result['user'] = userResult
+            response['result'] = result
         except UserModel.DoesNotExist:
             error = True
             message = 'failure'
