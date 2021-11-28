@@ -1,0 +1,35 @@
+{
+    "error":"",
+    "message":"",
+    "result":{
+        "posts":[
+            {
+                "post_id":1,
+                "user":{},
+                "company":{},
+                "university":{},
+                "content":"",
+                "upvotes":"",
+                "downvotes":""
+            },
+            {
+                "post_id":2,
+                "user":{},
+                "company":{},
+                "university":{},
+                "content":"",
+                "upvotes":"",
+                "downvotes":""
+            },
+            {
+                "post_id":3,
+                "user":{},
+                "company":{},
+                "university":{},
+                "content":"",
+                "upvotes":"",
+                "downvotes":""
+            }
+        ]
+    }
+}
