@@ -2,6 +2,7 @@ from django.core.checks.messages import Error
 from django.shortcuts import render
 from .models import UniversityModel,CompanyUserModel,CompanyModel,PostModel,PostMaterialModel,CommentModel
 from django.http import JsonResponse, HttpResponse
+from authApp.models import UserModel
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 import json
@@ -113,12 +114,44 @@ def viewPosts(request):
     for post in querySet:
         tempList = {}
         tempList['post_id'] = post.post_id
-        tempList['user_id'] = post.user_id
         tempList['timestamp'] = post.timestamp
         tempList['upvotes'] = post.upvotes
         tempList['downvotes'] = post.downvotes
         tempList['content'] = post.content
-        tempList['company_id'] = post.company_id
+
+        user = UserModel.objects.get(user_id=post.user_id)
+        userResult = {}
+        userResult['user_id'] = user.user_id
+        userResult['name'] = user.name
+        userResult['email'] = user.email
+        userResult['batch'] = user.batch
+        userResult['alumni'] = user.alumni
+        userResult['phone'] = user.phone
+        userResult['profile_image'] = user.profile_image
+        tempList['user'] = userResult
+
+        companyResult = {}
+        try :
+            company = CompanyModel.objects.get(company_id=post.company_id)
+            companyResult['company_id'] = company.company_id
+            companyResult['name'] = company.name
+            companyResult['logo'] = company.logo
+        except CompanyModel.DoesNotExist:
+            companyResult = {}
+
+        tempList['company'] = companyResult
+
+        universityResult = {}
+        try:
+            university = UniversityModel.objects.get(university_id=post.university_id)
+            universityResult['university_id'] = university.university_id
+            universityResult['name'] = university.name
+            universityResult['stream_name'] = university.stream_name
+        except UniversityModel.DoesNotExist:
+            universityResult = {}
+
+        tempList['university'] = universityResult
+
         postList.append(tempList)
 
     result['post'] = postList

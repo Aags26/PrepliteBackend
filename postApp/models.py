@@ -13,7 +13,7 @@ class CompanyModel(models.Model):
 
 class CompanyUserModel(models.Model):
     company_id = models.IntegerField(primary_key=True)
-    comapny_id = models.ForeignKey(CompanyModel,on_delete=models.CASCADE)
+    company_id = models.ForeignKey(CompanyModel,on_delete=models.CASCADE)
     user_id = models.IntegerField(primary_key=True)
     user_id = models.ForeignKey(UserModel,on_delete=models.CASCADE)
     internship = models.BooleanField()
@@ -31,20 +31,23 @@ class UniversityModel(models.Model):
 
 class PostModel(models.Model):
     post_id = models.AutoField(primary_key=True)
+    user_id = models.IntegerField(null=True)
     user_id = models.ForeignKey(UserModel,on_delete=models.CASCADE)
     timestamp = models.IntegerField()
     upvotes = models.IntegerField()
     downvotes = models.IntegerField()
     content = models.TextField()
+    company_id = models.IntegerField(null=True)
     company_id = models.ForeignKey(CompanyModel,on_delete=models.CASCADE)
-    # add
-
+    university_id = models.IntegerField(null=True)
+    university_id = models.ForeignKey(UniversityModel,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.post_id
 
 class CommentModel(models.Model):
     comment_id = models.AutoField(primary_key=True)
+    post_id = models.IntegerField()
     post_id = models.ForeignKey(PostModel,on_delete=models.CASCADE)
     timestamp = models.IntegerField()
     content = models.TextField()
