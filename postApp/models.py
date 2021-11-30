@@ -9,7 +9,7 @@ class CompanyModel(models.Model):
     logo = models.TextField()
 
     def __str__(self):
-        return self.company_id
+        return str(self.company_id)
 
 class CompanyUserModel(models.Model):
     company_id = models.IntegerField(primary_key=True)
@@ -19,7 +19,7 @@ class CompanyUserModel(models.Model):
     internship = models.BooleanField()
 
     def __str__(self):
-        return self.company_id+" - "+self.user_id
+        return str(self.company_id)+" - "+str(self.user_id)
 
 class UniversityModel(models.Model):
     university_id = models.AutoField(primary_key=True)
@@ -27,7 +27,7 @@ class UniversityModel(models.Model):
     stream_name = models.TextField()
 
     def __str__(self):
-        return self.university_id
+        return str(self.university_id)
 
 class PostModel(models.Model):
     post_id = models.AutoField(primary_key=True)
@@ -43,7 +43,7 @@ class PostModel(models.Model):
     university_id = models.ForeignKey(UniversityModel,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.post_id
+        return str(self.post_id)
 
 class CommentModel(models.Model):
     comment_id = models.AutoField(primary_key=True)
@@ -53,7 +53,7 @@ class CommentModel(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return self.comment_id
+        return str(self.comment_id)
 
 class PostMaterialModel(models.Model):
     post_id = models.IntegerField(primary_key=True)

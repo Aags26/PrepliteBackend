@@ -119,7 +119,7 @@ def viewPosts(request):
         tempList['downvotes'] = post.downvotes
         tempList['content'] = post.content
 
-        user = UserModel.objects.get(user_id=post.user_id)
+        user = post.user_id
         userResult = {}
         userResult['user_id'] = user.user_id
         userResult['name'] = user.name
@@ -132,7 +132,7 @@ def viewPosts(request):
 
         companyResult = {}
         try :
-            company = CompanyModel.objects.get(company_id=post.company_id)
+            company = post.company_id
             companyResult['company_id'] = company.company_id
             companyResult['name'] = company.name
             companyResult['logo'] = company.logo
@@ -143,7 +143,7 @@ def viewPosts(request):
 
         universityResult = {}
         try:
-            university = UniversityModel.objects.get(university_id=post.university_id)
+            university = post.university_id
             universityResult['university_id'] = university.university_id
             universityResult['name'] = university.name
             universityResult['stream_name'] = university.stream_name
@@ -173,9 +173,13 @@ def createPost(request):
         upvotes = 0
         downvotes = 0
         content = json_data['content']
+        university_id = json_data['university_id']
         company_id = json_data['company_id']
+        user = UserModel.objects.get(user_id=user_id)
+        company = CompanyModel.objects.get(company_id=company_id)
+        university = UniversityModel.objects.get(university_id=university_id)
 
-        postEntry = PostModel.objects.create(company_id=company_id,user_id=user_id,upvotes=upvotes,downvotes=downvotes,content=content,timestamp=timestamp)
+        postEntry = PostModel.objects.create(university_id=university,company_id=company,user_id=user,upvotes=upvotes,downvotes=downvotes,content=content,timestamp=timestamp)
     response['error'] = error
     response['message'] = message
 
