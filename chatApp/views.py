@@ -30,7 +30,7 @@ def viewParticularChat(request):
     json_data = json.loads(request.body)
     from_id = json_data['from_id']
     to_id = json_data['to_id']
-    querySet = MessageModel.objects.filter(from_id=from_id,to_id=to_id)
+    querySet = MessageModel.objects.filter(from_id=from_id,to_id=to_id).order_by('-timestamp')
     response = []
     for message in querySet:
         tempList = {}
@@ -51,7 +51,7 @@ def viewChats(request):
     message = "success"
     result = {}
     chatList = []
-    chats = MessageModel.objects.filter(Q(from_id=user_id)|Q(to_id=user_id))
+    chats = MessageModel.objects.filter(Q(from_id=user_id)|Q(to_id=user_id)).order_by('-timestamp')
     for chat in chats:
         tempList = {}
         tempList['from_id'] = chat.from_id
