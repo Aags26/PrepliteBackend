@@ -178,9 +178,19 @@ def createPost(request):
         content = json_data['content']
         university_id = json_data['university_id']
         company_id = json_data['company_id']
+
+        if university_id == -1:
+            # no university
+            university = None
+        else:
+            university = UniversityModel.objects.get(university_id=university_id)
+        if company_id == -1:
+            # no company
+            company = None
+        else:
+            company = CompanyModel.objects.get(company_id=company_id)
+
         user = UserModel.objects.get(user_id=user_id)
-        company = CompanyModel.objects.get(company_id=company_id)
-        university = UniversityModel.objects.get(university_id=university_id)
 
         postEntry = PostModel.objects.create(university_id=university,company_id=company,user_id=user,upvotes=upvotes,downvotes=downvotes,content=content,timestamp=timestamp)
     response['error'] = error
@@ -266,6 +276,8 @@ def addComment(request):
     response = {}
     error = False
     message = "success"
+    result = {}
+    commentArray = []
     if request.method == "POST":
         json_data = json.loads(request.body)
 
@@ -277,6 +289,15 @@ def addComment(request):
         user = UserModel.objects.get(user_id=user_id)
 
         commentEntry = CommentModel.objects.create(post_id=post,content=content,timestamp=timestamp,user_id=user)
+        commentList = {}
+        commentList['comment_id'] = commentEntry.comment_id
+        commentList['content'] = commentEntry.content
+        commentList['timestamp'] = commentEntry.timestamp
+
+        commentArray.append(commentList)
+
+    result['comment'] = commentArray
+    response['result'] = result
     response['error'] = error
     response['message'] = message
 
