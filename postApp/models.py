@@ -51,6 +51,8 @@ class CommentModel(models.Model):
     post_id = models.ForeignKey(PostModel,on_delete=models.CASCADE)
     timestamp = models.IntegerField()
     content = models.TextField()
+    user_id = models.IntegerField()
+    user_id = models.ForeignKey(UserModel,on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.comment_id)

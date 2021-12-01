@@ -229,6 +229,7 @@ def viewComments(request):
     message = "success"
     json_data = json.loads(request.body)
     post_id = json_data['post_id']
+    post = PostModel.objects.get(post_id=post_id)
     response = {}
     result = {}
     commentList = []
@@ -237,6 +238,17 @@ def viewComments(request):
         tempList = {}
         tempList['comment_id'] = comment.comment_id
         tempList['content'] = comment.content
+
+        userList = {}
+        userList['user_id'] = comment.user_id.user_id
+        userList['name'] = comment.user_id.name
+        userList['email'] = comment.user_id.email
+        userList['batch'] = comment.user_id.batch
+        userList['alumni'] = comment.user_id.alumni
+        userList['phone'] = comment.user_id.phone
+        userList['profile_image'] = comment.user_id.profile_image
+
+        tempList['user'] = userList
         commentList.append(tempList)
 
     result['comment'] = commentList
@@ -254,9 +266,13 @@ def addComment(request):
         json_data = json.loads(request.body)
 
         post_id = json_data['post_id']
+        post = PostModel.objects.get(post_id=post_id)
         content = json_data['content']
+        timestamp = time.time()
+        user_id = json_data['user_id']
+        user = UserModel.objects.get(user_id=user_id)
 
-        commentEntry = CommentModel.objects.create(post_id=post_id,content=content)
+        commentEntry = CommentModel.objects.create(post_id=post,content=content,timestamp=timestamp,user_id=user)
     response['error'] = error
     response['message'] = message
 
