@@ -238,6 +238,7 @@ def viewComments(request):
         tempList = {}
         tempList['comment_id'] = comment.comment_id
         tempList['content'] = comment.content
+        tempList['timestamp'] = comment.timestamp
 
         userList = {}
         userList['user_id'] = comment.user_id.user_id
