@@ -25,6 +25,7 @@ class UniversityModel(models.Model):
     university_id = models.AutoField(primary_key=True)
     name = models.TextField()
     stream_name = models.TextField()
+    logo = models.TextField()
 
     def __str__(self):
         return str(self.university_id)

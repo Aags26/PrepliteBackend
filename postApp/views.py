@@ -18,8 +18,9 @@ def registerUniversity(request):
 
         universityName = json_data['name']
         streamName = json_data['stream_name']
+        logo = json_data['logo']
 
-        universityEntry = UniversityModel.objects.create(name=universityName,stream_name=streamName)
+        universityEntry = UniversityModel.objects.create(name=universityName,stream_name=streamName,logo=logo)
     response['error'] = error
     response['message'] = message
 
@@ -36,6 +37,7 @@ def viewUniversities(request):
         tempList['university_id'] = university.university_id
         tempList['name'] = university.name
         tempList['stream_name'] = university.stream_name
+        tempList['logo'] = university.logo
         universityList.append(tempList)
 
     result['university'] = universityList
@@ -147,6 +149,7 @@ def viewPosts(request):
             universityResult['university_id'] = university.university_id
             universityResult['name'] = university.name
             universityResult['stream_name'] = university.stream_name
+            universityResult['logo'] = university.logo
         except UniversityModel.DoesNotExist:
             universityResult = {}
 
