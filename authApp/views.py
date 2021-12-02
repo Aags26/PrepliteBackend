@@ -94,3 +94,34 @@ def profile(request):
     response['error'] = error
     response['message'] = message
     return JsonResponse(response)
+
+@csrf_exempt
+def viewUsers(request):
+    response = {}
+    result = {}
+    error = False
+    message = 'success'
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+
+        userList = UserModel.objects.filter(~Q(user_id=json_data['user_id']))
+
+        users = []
+
+        for user in userList:
+            userResult = {}
+            userResult['user_id'] = user.user_id
+            userResult['name'] = user.name
+            userResult['email'] = user.email
+            userResult['batch'] = user.batch
+            userResult['alumni'] = user.alumni
+            userResult['phone'] = user.phone
+            userResult['profile_image'] = user.profile_image
+            users.append(userResult)
+
+        result['user'] = users
+        response['result'] = result
+        
+    response['error'] = error
+    response['message'] = message
+    return JsonResponse(response)
