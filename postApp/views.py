@@ -436,7 +436,7 @@ def deletePost(request):
         json_data = json.loads(request.body)
 
         post_id = json_data['post_id']
-        postObject = PostModel.objects.delete(post_id=post_id)
+        postObject = PostModel.objects.get(post_id=post_id).delete()
 
     response['error'] = error
     response['message'] = message
@@ -452,7 +452,7 @@ def deleteComment(request):
         json_data = json.loads(request.body)
 
         comment_id = json_data['comment_id']
-        postObject = CommentModel.objects.delete(comment_id=comment_id)
+        postObject = CommentModel.objects.get(comment_id=comment_id).delete()
 
     response['error'] = error
     response['message'] = message
