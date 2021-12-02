@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from authApp.views import register, login, profile, viewUsers
+from authApp.views import profileImage, register, login, profile, viewUsers
 from postApp.views import upload,deletePost,deleteComment,registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies,upvote,downvote,viewPosts,createPost,viewComments,addComment,viewCompanyPosts,viewUniversityPosts
 from chatApp.views import viewChats,viewParticularChat,sendMessage
 
@@ -47,6 +47,7 @@ urlpatterns = [
     path('deletePost/',deletePost),
     path('deleteComment/',deleteComment),
     path('upload/',upload),
-    path('viewUsers/',viewUsers)
+    path('viewUsers/',viewUsers),
+    path('changeProfileImage/',profileImage)
 
 ]

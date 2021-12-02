@@ -125,3 +125,19 @@ def viewUsers(request):
     response['error'] = error
     response['message'] = message
     return JsonResponse(response)
+
+@csrf_exempt
+def profileImage(request):
+    response = {}
+    error = False
+    message = 'success'
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+
+        user = UserModel.objects.get(user_id=json_data['user_id'])
+        user.profile_image = json_data['profile_image']
+        user.save()
+        
+    response['error'] = error
+    response['message'] = message
+    return JsonResponse(response)
