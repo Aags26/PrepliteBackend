@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ChatModel, MessageModel
+from .models import  MessageModel,ChatModel
 
 # Register your mod(els here.
 admin.site.register(MessageModel)
