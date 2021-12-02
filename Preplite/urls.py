@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from authApp.views import register, login, profile
-from postApp.views import registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies,upvote,downvote,viewPosts,createPost,viewComments,addComment,viewCompanyPosts,viewUniversityPosts
+from postApp.views import deletePost,deleteComment,registerUniversity,viewUniversities,registerCompany,registerCompanyUser,viewCompanies,upvote,downvote,viewPosts,createPost,viewComments,addComment,viewCompanyPosts,viewUniversityPosts
 from chatApp.views import viewChats,viewParticularChat,sendMessage
 
 router = routers.DefaultRouter()
@@ -43,5 +43,8 @@ urlpatterns = [
     path('viewUniversityPosts/',viewUniversityPosts),
     path('viewChats/',viewChats),
     path('viewParticularChat/',viewParticularChat),
-    path('sendMessage/',sendMessage)
+    path('sendMessage/',sendMessage),
+    path('deletePost/',deletePost),
+    path('deleteComment/',deleteComment)
+
 ]

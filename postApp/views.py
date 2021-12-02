@@ -426,3 +426,35 @@ def viewUniversityPosts(request):
     response['message'] = message
 
     return JsonResponse(response, safe=False)
+
+@csrf_exempt
+def deletePost(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method=="POST":
+        json_data = json.loads(request.body)
+
+        post_id = json_data['post_id']
+        postObject = PostModel.objects.delete(post_id=post_id)
+
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)
+
+@csrf_exempt
+def deleteComment(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method=="POST":
+        json_data = json.loads(request.body)
+
+        comment_id = json_data['comment_id']
+        postObject = CommentModel.objects.delete(comment_id=comment_id)
+
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response)

@@ -61,10 +61,14 @@ class CommentModel(models.Model):
 class PostMaterialModel(models.Model):
     post_id = models.IntegerField(primary_key=True)
     post_id = models.ForeignKey(PostModel,on_delete=models.CASCADE)
-    material = models.TextField(primary_key=True)
+    material = models.FileField(upload_to='uploads/')
+    material_id = models.AutoField(primary_key=True)
+
+    class Meta:
+        unique_together = (("material_id","post_id"),)
 
     def __str__(self):
-        return self.material
+        return str(self.material)
 
 
 
