@@ -177,8 +177,6 @@ def createPost(request):
         downvotes = 0
         content = json_data['content']
         
-        
-
         try:
             university_id = json_data['university_id']
             university = UniversityModel.objects.get(university_id=university_id)
@@ -302,3 +300,129 @@ def addComment(request):
     response['message'] = message
 
     return JsonResponse(response)
+
+@csrf_exempt
+def viewCompanyPosts(request):
+    json_data = json.loads(request.body)
+
+    company_id = json_data['company_id']
+    companyPosts = PostModel.objects.filter(company_id=company_id).order_by('-timestamp')
+
+    error = False
+    message = "success"
+    response = {}
+    result = {}
+    postList = []
+    for post in companyPosts:
+        tempList = {}
+        tempList['post_id'] = post.post_id
+        tempList['timestamp'] = post.timestamp
+        tempList['upvotes'] = post.upvotes
+        tempList['downvotes'] = post.downvotes
+        tempList['content'] = post.content
+
+        user = post.user_id
+        userResult = {}
+        userResult['user_id'] = user.user_id
+        userResult['name'] = user.name
+        userResult['email'] = user.email
+        userResult['batch'] = user.batch
+        userResult['alumni'] = user.alumni
+        userResult['phone'] = user.phone
+        userResult['profile_image'] = user.profile_image
+        tempList['user'] = userResult
+
+        companyResult = {}
+        try :
+            company = post.company_id
+            companyResult['company_id'] = company.company_id
+            companyResult['name'] = company.name
+            companyResult['logo'] = company.logo
+        except:
+            companyResult = {}
+
+        tempList['company'] = companyResult
+
+        universityResult = {}
+        try:
+            university = post.university_id
+            universityResult['university_id'] = university.university_id
+            universityResult['name'] = university.name
+            universityResult['stream_name'] = university.stream_name
+            universityResult['logo'] = university.logo
+        except:
+            universityResult = {}
+
+        tempList['university'] = universityResult
+
+        postList.append(tempList)
+
+    result['post'] = postList
+    response['result'] = result
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response, safe=False)
+
+@csrf_exempt
+def viewUniversityPosts(request):
+    json_data = json.loads(request.body)
+
+    university_id = json_data['university_id']
+    universityPosts = PostModel.objects.filter(university_id=university_id).order_by('-timestamp')
+
+    error = False
+    message = "success"
+    response = {}
+    result = {}
+    postList = []
+    for post in universityPosts:
+        tempList = {}
+        tempList['post_id'] = post.post_id
+        tempList['timestamp'] = post.timestamp
+        tempList['upvotes'] = post.upvotes
+        tempList['downvotes'] = post.downvotes
+        tempList['content'] = post.content
+
+        user = post.user_id
+        userResult = {}
+        userResult['user_id'] = user.user_id
+        userResult['name'] = user.name
+        userResult['email'] = user.email
+        userResult['batch'] = user.batch
+        userResult['alumni'] = user.alumni
+        userResult['phone'] = user.phone
+        userResult['profile_image'] = user.profile_image
+        tempList['user'] = userResult
+
+        companyResult = {}
+        try :
+            company = post.company_id
+            companyResult['company_id'] = company.company_id
+            companyResult['name'] = company.name
+            companyResult['logo'] = company.logo
+        except:
+            companyResult = {}
+
+        tempList['company'] = companyResult
+
+        universityResult = {}
+        try:
+            university = post.university_id
+            universityResult['university_id'] = university.university_id
+            universityResult['name'] = university.name
+            universityResult['stream_name'] = university.stream_name
+            universityResult['logo'] = university.logo
+        except:
+            universityResult = {}
+
+        tempList['university'] = universityResult
+
+        postList.append(tempList)
+
+    result['post'] = postList
+    response['result'] = result
+    response['error'] = error
+    response['message'] = message
+
+    return JsonResponse(response, safe=False)
