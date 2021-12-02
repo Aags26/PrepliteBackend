@@ -120,7 +120,7 @@ def viewUsers(request):
             users.append(userResult)
 
             
-        result['user'] = users
+        result['users'] = users
         response['result'] = result
         
     response['error'] = error
