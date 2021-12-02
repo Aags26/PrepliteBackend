@@ -138,7 +138,7 @@ def viewPosts(request):
             companyResult['company_id'] = company.company_id
             companyResult['name'] = company.name
             companyResult['logo'] = company.logo
-        except CompanyModel.DoesNotExist:
+        except:
             companyResult = {}
 
         tempList['company'] = companyResult
@@ -150,7 +150,7 @@ def viewPosts(request):
             universityResult['name'] = university.name
             universityResult['stream_name'] = university.stream_name
             universityResult['logo'] = university.logo
-        except UniversityModel.DoesNotExist:
+        except:
             universityResult = {}
 
         tempList['university'] = universityResult
