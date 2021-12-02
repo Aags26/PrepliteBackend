@@ -119,7 +119,7 @@ def viewUsers(request):
             userResult['profile_image'] = user.profile_image
             users.append(userResult)
 
-        result['user'] = users
+        result['chat'] = users
         response['result'] = result
         
     response['error'] = error
