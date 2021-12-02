@@ -176,20 +176,20 @@ def createPost(request):
         upvotes = 0
         downvotes = 0
         content = json_data['content']
-        university_id = json_data['university_id']
-        company_id = json_data['company_id']
+        
+        
 
-        if university_id == -1:
-            # no university
-            university = None
-        else:
+        try:
+            university_id = json_data['university_id']
             university = UniversityModel.objects.get(university_id=university_id)
-        if company_id == -1:
-            # no company
-            company = None
-        else:
+        except:
+            university = None
+        try:
+            company_id = json_data['company_id']
             company = CompanyModel.objects.get(company_id=company_id)
-
+        except:
+            company = None
+            
         user = UserModel.objects.get(user_id=user_id)
 
         postEntry = PostModel.objects.create(university_id=university,company_id=company,user_id=user,upvotes=upvotes,downvotes=downvotes,content=content,timestamp=timestamp)

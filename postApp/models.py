@@ -38,10 +38,10 @@ class PostModel(models.Model):
     upvotes = models.IntegerField()
     downvotes = models.IntegerField()
     content = models.TextField()
-    company_id = models.IntegerField(null=True)
-    company_id = models.ForeignKey(CompanyModel,on_delete=models.CASCADE)
-    university_id = models.IntegerField(null=True)
-    university_id = models.ForeignKey(UniversityModel,on_delete=models.CASCADE)
+    company_id = models.IntegerField(null=True,blank=True)
+    company_id = models.ForeignKey(CompanyModel,on_delete=models.CASCADE,null=True)
+    university_id = models.IntegerField(null=True,blank=True)
+    university_id = models.ForeignKey(UniversityModel,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return str(self.post_id)
