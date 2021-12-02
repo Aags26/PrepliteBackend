@@ -39,14 +39,21 @@ def viewParticularChat(request):
     from_id = json_data['from_id']
     to_id = json_data['to_id']
     querySet = MessageModel.objects.filter(from_id=from_id,to_id=to_id).order_by('timestamp')
-    response = []
+    response = {}
+    chatList = []
+    error = False
     for message in querySet:
         tempList = {}
         tempList['from_id'] = message.from_id.user_id
         tempList['to_id'] = message.to_id.user_id
         tempList['timestamp'] = message.timestamp
         tempList['message'] = message.message
-        response.append(tempList)
+        chatList.append(tempList)
+    
+    response['chat'] = chatList
+    message = 'success'
+    response['error'] = error
+    response['message'] = message
 
     return JsonResponse(response, safe=False)
 
