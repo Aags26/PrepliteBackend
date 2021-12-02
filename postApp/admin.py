@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CompanyModel,CompanyUserModel,PostMaterialModel,PostModel,UniversityModel,CommentModel
+from .models import CompanyModel,CompanyUserModel,PostModel,PostMaterialModel,UniversityModel,CommentModel
 
 # Register your models here.
 admin.site.register(CompanyModel)

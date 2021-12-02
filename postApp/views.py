@@ -1,6 +1,6 @@
 from django.core.checks.messages import Error
 from django.shortcuts import render
-from .models import UniversityModel,CompanyUserModel,CompanyModel,PostModel,PostMaterialModel,CommentModel
+from .models import UniversityModel,CompanyUserModel,CompanyModel,PostModel,CommentModel
 from django.http import JsonResponse, HttpResponse
 from authApp.models import UserModel
 from django.views.decorators.csrf import csrf_exempt
