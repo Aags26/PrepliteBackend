@@ -45,6 +45,12 @@ def login(request):
             userResult = {}
             user = UserModel.objects.get(Q(email=json_data['email']),Q(password=hashlib.md5(bytes(json_data['password'].encode())).hexdigest()))
             userResult['user_id'] = user.user_id
+            userResult['name'] = user.name
+            userResult['email'] = user.email
+            userResult['batch'] = user.batch
+            userResult['alumni'] = user.alumni
+            userResult['phone'] = user.phone
+            userResult['profile_image'] = user.profile_image
             result['user'] = userResult
             response['result'] = result
         except UserModel.DoesNotExist:
