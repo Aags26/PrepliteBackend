@@ -50,7 +50,7 @@ def viewParticularChat(request):
         tempList['message'] = message.message
         chatList.append(tempList)
     
-    response['chat'] = chatList
+    response['particular_chat'] = chatList
     message = 'success'
     response['error'] = error
     response['message'] = message
