@@ -108,7 +108,12 @@ def viewUsers(request):
 
         users = []
 
+        chat = []
+
+
+
         for user in userList:
+            tempChat = {}
             userResult = {}
             userResult['user_id'] = user.user_id
             userResult['name'] = user.name
@@ -117,9 +122,12 @@ def viewUsers(request):
             userResult['alumni'] = user.alumni
             userResult['phone'] = user.phone
             userResult['profile_image'] = user.profile_image
+            tempChat['user'] = userResult
+            tempChat['timestamp'] = ""
+            chat.append(tempChat)
             users.append(userResult)
-
-        result['chat'] = {"user":users}  
+        
+        result['chat'] = chat  
         response['result'] = result
         
     response['error'] = error
