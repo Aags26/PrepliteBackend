@@ -47,7 +47,7 @@ def viewParticularChat(request):
         tempList['from_id'] = message.from_id.user_id
         tempList['to_id'] = message.to_id.user_id
         tempList['timestamp'] = message.timestamp
-        tempList['message'] = message.message
+        tempList['message_p2p'] = message.message
         chatList.append(tempList)
 
     result = {}
