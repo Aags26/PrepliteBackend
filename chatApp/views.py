@@ -19,11 +19,11 @@ def sendMessage(request):
         to_id = json_data['to_id']
         toUser = UserModel.objects.get(user_id=to_id)
         timestamp = json_data['timestamp']
-        message = json_data['message']
+        message = json_data['message_p2p']
         try:
             #chat exists
             chat = ChatModel.objects.get(Q(from_id=from_id)&Q(to_id=to_id))
-            messageEntry = MessageModel.objects.create(from_id=from_id,to_id=to_id,timestamp=timestamp,message=message,chat_id=chat.chat_id)
+            messageEntry = MessageModel.objects.create(from_id=from_id,to_id=to_id,timestamp=timestamp,message=message,chat_id=chat)
         except:
             newChat = ChatModel.objects.create(from_id=fromUser,to_id=toUser)
             messageEntry = MessageModel.objects.create(from_id=fromUser,to_id=toUser,timestamp=timestamp,message=message,chat_id=newChat)
