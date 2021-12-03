@@ -104,6 +104,7 @@ def viewChats(request):
     
     for chat in chats:
         userResult = {}
+        tempChat = {}
         if chat.from_id.user_id != user_id:
             user = chat.from_id
             userResult['user_id'] = user.user_id
@@ -123,10 +124,16 @@ def viewChats(request):
             userResult['phone'] = user.phone
             userResult['profile_image'] = user.profile_image
 
+        tempChat['user'] = userResult
+        tempChat['timestamp'] = ''
         # tempList['timestamp'] = chat.timestamp
         # tempList['message'] = chat.message
-        chatList.append(userResult)
+        chatList.append(tempChat)
+        
+        
 
+    result = {}
+    chat = []
     result['chat'] = chatList
     response['result'] = result
     response['error'] = error
