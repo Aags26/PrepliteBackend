@@ -18,7 +18,7 @@ def sendMessage(request):
         fromUser = UserModel.objects.get(user_id=from_id)
         to_id = json_data['to_id']
         toUser = UserModel.objects.get(user_id=to_id)
-        timestamp = time.time()
+        timestamp = json_data['timestamp']
         message = json_data['message']
         try:
             #chat exists
