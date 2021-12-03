@@ -49,8 +49,10 @@ def viewParticularChat(request):
         tempList['timestamp'] = message.timestamp
         tempList['message'] = message.message
         chatList.append(tempList)
-    
-    response['particular_chat'] = chatList
+
+    result = {}
+    result['particular_chat'] = chatList
+    response['result'] = result
     message = 'success'
     response['error'] = error
     response['message'] = message
