@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators import csrf
 from .models import UserModel
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -110,8 +111,6 @@ def viewUsers(request):
 
         chat = []
 
-
-
         for user in userList:
             tempChat = {}
             userResult = {}
@@ -135,7 +134,7 @@ def viewUsers(request):
     return JsonResponse(response)
 
 @csrf_exempt
-def profileImage(request):
+def changeProfileImage(request):
     response = {}
     error = False
     message = 'success'
@@ -149,3 +148,39 @@ def profileImage(request):
     response['error'] = error
     response['message'] = message
     return JsonResponse(response)
+
+@csrf_exempt
+def updateProfile(request):
+    response = {}
+    error = False
+    message = "success"
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+        user_id = json_data['user_id']
+        user = UserModel.objects.get(user_id=user_id)
+        name = json_data['name']
+        phone = json_data['phone']
+        email = json_data['email']
+        batch = json_data['batch']
+        alumni = json_data['alumni']
+
+        if name != "":
+            user.name = name
+        if phone != 0:
+            user.phone = phone
+        if email != "":
+            user.email = email
+        if batch != 0:
+            user.batch = batch
+        if alumni != '':
+            if alumni == 'n':
+                alumni = False
+            else:
+                alumni = True
+        
+        user.save()
+        
+    response['error'] = error
+    response['message'] = message
+    return JsonResponse(response)
+
