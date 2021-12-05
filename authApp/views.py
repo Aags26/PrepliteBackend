@@ -154,6 +154,7 @@ def updateProfile(request):
     response = {}
     error = False
     message = "success"
+    userResult = {}
     if request.method == "POST":
         json_data = json.loads(request.body)
         user_id = json_data['user_id']
@@ -177,9 +178,19 @@ def updateProfile(request):
                 alumni = False
             else:
                 alumni = True
-        
+
         user.save()
+
         
+        userResult['user_id'] = user.user_id
+        userResult['name'] = user.name
+        userResult['email'] = user.email
+        userResult['batch'] = user.batch
+        userResult['alumni'] = user.alumni
+        userResult['phone'] = user.phone
+        userResult['profile_image'] = user.profile_image
+        
+    response['result'] = {"user":userResult}
     response['error'] = error
     response['message'] = message
     return JsonResponse(response)
