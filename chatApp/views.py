@@ -20,11 +20,22 @@ def sendMessage(request):
         toUser = UserModel.objects.get(user_id=to_id)
         timestamp = json_data['timestamp']
         message = json_data['message_p2p']
+        print("here")
         try:
             #chat exists
-            chat = ChatModel.objects.get(Q(from_id=from_id)&Q(to_id=to_id))
-            messageEntry = MessageModel.objects.create(from_id=from_id,to_id=to_id,timestamp=timestamp,message=message,chat_id=chat)
+            # chat = ChatModel.objects.get(Q(from_id=from_id)&Q(to_id=to_id))
+            print("here3")
+            try:
+                chat = ChatModel.objects.get(from_id=fromUser,to_id=toUser)
+                print("here2")
+                messageEntry = MessageModel.objects.create(from_id=fromUser,to_id=toUser,timestamp=timestamp,message=message,chat_id=chat)
+            except:
+                print("here5")
+                chat = ChatModel.objects.get(from_id=toUser,to_id=fromUser)
+                print("here4")
+                messageEntry = MessageModel.objects.create(from_id=fromUser,to_id=toUser,timestamp=timestamp,message=message,chat_id=chat)
         except:
+            print("here6")
             newChat = ChatModel.objects.create(from_id=fromUser,to_id=toUser)
             messageEntry = MessageModel.objects.create(from_id=fromUser,to_id=toUser,timestamp=timestamp,message=message,chat_id=newChat)
     message = "success"
